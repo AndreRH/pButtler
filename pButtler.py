@@ -10,17 +10,24 @@
 import pygame
 import time
 
+# Define some constant
+days_french = ["lundi", "mardi", "mercredi", "jeudi", "vendredi",
+    "samedi", "dimanche"]
+months_french = ["janvier", "février", "mars", "avril", "mai",
+    "juin", "juillet", "aout", "septembre", "octobre", "novembre",
+    "décembre"]
+
 # Init the pygame
 pygame.init()
 
 ## CSS
-# Define some fonts
+# Define some font
 font_time = pygame.font.SysFont(
         'Helvetica', 75, bold=False, italic=False)
 font_date = pygame.font.SysFont(
         'Helvetica', 20, bold=False, italic=False)
 
-# Define some colors
+# Define some color
 c_BLACK = (0, 0, 0)
 c_WHITE = (221, 221, 221)
 
@@ -55,13 +62,18 @@ while not mustQuit:
     screen.fill(c_BLACK)
 
     # Display time
+    t = time.localtime()
     str_time = time.strftime("%H:%M:%S")
-    str_date = time.strftime("%A %d %B %Y")
+    str_date = "%s %d %s %d" % (
+            days_french[t.tm_wday],
+            t.tm_mday,
+            months_french[t.tm_mon],
+            t.tm_year)
 
     txt_time = font_time.render(str_time, True, c_WHITE)
     txt_date = font_date.render(str_date, True, c_WHITE)
-    screen.blit(txt_time, [150, 150])
-    screen.blit(txt_date, [200, 225])
+    screen.blit(txt_time, [100, 50])
+    screen.blit(txt_date, [150, 140])
 
     # Update screen
     pygame.display.flip()
