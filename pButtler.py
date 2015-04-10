@@ -12,6 +12,7 @@ import time
 
 # Import widgets
 from widgets.w_DateTime import *
+from widgets.w_Roles import *
 
 # Init the pygame
 pygame.init()
@@ -26,7 +27,10 @@ screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 pygame.display.set_caption("buttler")
 
 # Init widgets
-widgets = {"w_DateTime": w_DateTime(pygame)}
+widgets = {
+    "w_DateTime": w_DateTime(pygame),
+    "w_Roles": w_Roles(pygame)
+    }
 
 # Main loop
 # Loop until the user clicks the close button
