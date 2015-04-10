@@ -3,6 +3,7 @@
 # CSS
 # Define some color
 c_BLACK = (0, 0, 0)
+c_GRAY  = (55, 55, 55)
 c_WHITE = (221, 221, 221)
 
 
