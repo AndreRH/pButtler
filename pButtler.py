@@ -9,6 +9,7 @@
 
 import pygame
 import time
+import os
 
 # Import widgets
 from widgets.w_DateTime import *
@@ -17,7 +18,7 @@ from widgets.w_Roles import *
 # Init the pygame
 pygame.init()
 
-# Set the screen to fulscreen
+# Set the screen to fullscreen
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 
 pygame.display.set_caption("buttler")
@@ -33,6 +34,23 @@ fadeInc = 10
 fadeSpeed = 50
 fadeTime = 0
 
+# Create the two fading functions
+def fadeOut():
+    global F_fadeIn, F_fadeOut, fadeTime
+    (F_fadeIn, F_fadeOut) = (False, True)
+    fadeTime = pygame.time.get_ticks()
+
+def fadeIn():
+    global F_fadeIn, F_fadeOut, fadeTime
+    (F_fadeIn, F_fadeOut) = (True, False)
+    fadeTime = pygame.time.get_ticks()
+
+
+# Init the screensaver properties
+F_saver = False     # Set to True when the screensaver is turned on
+saverTimer = 5000   # Time without activity to trigger the screensaver
+saverTime = 0       # Time of the last activity
+
 # Init widgets
 widgets = {
     "w_DateTime": w_DateTime(pygame),
@@ -46,9 +64,13 @@ mustQuit = False
 # Used to set the screen update rate
 clock = pygame.time.Clock()
 
+# Init the screensaver
+saverTime = pygame.time.get_ticks()
+
 while not mustQuit:
     # Set the frame rate
     clock.tick(60)
+    t = pygame.time.get_ticks()
 
     # Solve events
     for event in pygame.event.get():
@@ -56,14 +78,24 @@ while not mustQuit:
             mustQuit = True
 
         if event.type == pygame.KEYUP:
+            # Update the screensaver activity tracker
+            saverTime = pygame.time.get_ticks()
+            F_saver = False
+
             if event.key == pygame.K_ESCAPE:
                 mustQuit = True
             if event.key == pygame.K_UP:
-                (F_fadeIn, F_fadeOut) = (True, False)
-                fadeTime = pygame.time.get_ticks()
+                fadeIn()
             if event.key == pygame.K_DOWN:
-                (F_fadeIn, F_fadeOut) = (False, True)
-                fadeTime = pygame.time.get_ticks()
+                fadeOut()
+
+    # Screensaver
+    if not F_saver and t - saverTime > saverTimer:
+        F_saver = True
+        fadeOut()
+    if F_saver and surface.get_alpha() == 0:
+        os.system("xset dpms force off")
+
     
     # --- Drawing code
     # Clear the screen to black
@@ -75,7 +107,6 @@ while not mustQuit:
         widget.update(surface)
 
     # Update the fading if necessary
-    t = pygame.time.get_ticks()
     if F_fadeIn and t - fadeTime > fadeSpeed:
         a = surface.get_alpha() + fadeInc
         if a > 255:
