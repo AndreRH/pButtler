@@ -14,6 +14,7 @@ import os
 # Import widgets
 from widgets.w_DateTime import *
 from widgets.w_Roles import *
+from widgets.w_Maxim import *
 
 # Init the pygame
 pygame.init()
@@ -48,13 +49,14 @@ def fadeIn():
 
 # Init the screensaver properties
 F_saver = False     # Set to True when the screensaver is turned on
-saverTimer = 5000   # Time without activity to trigger the screensaver
+saverTimer = 60000   # Time without activity to trigger the screensaver
 saverTime = 0       # Time of the last activity
 
 # Init widgets
 widgets = {
     "w_DateTime": w_DateTime(pygame),
-    "w_Roles": w_Roles(pygame)
+    "w_Roles": w_Roles(pygame),
+    "w_Maxim": w_Maxim(pygame)
     }
 
 # Main loop
