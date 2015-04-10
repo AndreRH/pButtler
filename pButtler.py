@@ -10,33 +10,23 @@
 import pygame
 import time
 
-# Define some constant
-days_french = ["lundi", "mardi", "mercredi", "jeudi", "vendredi",
-    "samedi", "dimanche"]
-months_french = ["janvier", "février", "mars", "avril", "mai",
-    "juin", "juillet", "aout", "septembre", "octobre", "novembre",
-    "décembre"]
+# Import widgets
+from widgets.w_DateTime import *
 
 # Init the pygame
 pygame.init()
 
-## CSS
-# Define some font
-font_time = pygame.font.SysFont(
-        'Helvetica', 75, bold=False, italic=False)
-font_date = pygame.font.SysFont(
-        'Helvetica', 20, bold=False, italic=False)
-
-# Define some color
-c_BLACK = (0, 0, 0)
-c_WHITE = (221, 221, 221)
-
-# Set width and height
-size = (700, 500)
+## Set width and height
+#size = (700, 500)
 #screen = pygame.display.set_mode(size)
+
+# Set the screen to fulscreen
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 
 pygame.display.set_caption("buttler")
+
+# Init widgets
+widgets = {"w_DateTime": w_DateTime(pygame)}
 
 # Main loop
 # Loop until the user clicks the close button
@@ -61,19 +51,9 @@ while not mustQuit:
     # Clear the screen to black
     screen.fill(c_BLACK)
 
-    # Display time
-    t = time.localtime()
-    str_time = time.strftime("%H:%M:%S")
-    str_date = "%s %d %s %d" % (
-            days_french[t.tm_wday],
-            t.tm_mday,
-            months_french[t.tm_mon],
-            t.tm_year)
-
-    txt_time = font_time.render(str_time, True, c_WHITE)
-    txt_date = font_date.render(str_date, True, c_WHITE)
-    screen.blit(txt_time, [100, 50])
-    screen.blit(txt_date, [150, 140])
+    # Update widgets
+    for widget in widgets.values():
+        widget.update(screen)
 
     # Update screen
     pygame.display.flip()
