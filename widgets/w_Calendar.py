@@ -11,15 +11,15 @@ class w_Calendar(widget):
     Display the shared calendar.
     """
 
-    def __init__(self, game):
+    def __init__(self, game, screen):
         """Initialize the widget.
         """
-        widget.__init__(self, game)
+        widget.__init__(self, game, screen)
 
         # Update needed properties
         self.name = "w_Calendar"
-        self.x = 100
-        self.y = 300
+        self.x = self.coo_right(500)
+        self.y = 180
 
         # Define custom properties
         # Caldav properties

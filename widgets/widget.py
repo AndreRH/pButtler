@@ -11,7 +11,7 @@ class widget():
     """Template for every widget.
     """
 
-    def __init__(self, game):
+    def __init__(self, game, screen):
         """Initialization of the widget.
         """
         # Define needed properties
@@ -21,10 +21,17 @@ class widget():
 
         # Save the pyGame reference
         self.game = game
+        self.screen_size = screen.get_size()
 
-    def update(self):
+    def update(self, screen, t):
         pass
 
     # Define some tools
     def coo(self, x, y):
         return [self.x + x, self.y + y]
+
+    def coo_bottom(self, y):
+        return self.screen_size[1] - y
+
+    def coo_right(self, x):
+        return self.screen_size[0] - x

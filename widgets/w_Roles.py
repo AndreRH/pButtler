@@ -7,10 +7,10 @@ class w_Roles(widget):
     Display the roles planning.
     """
 
-    def __init__(self, game):
+    def __init__(self, game, screen):
         """Initialize the widget.
         """
-        widget.__init__(self, game)
+        widget.__init__(self, game, screen)
 
         # Update needed properties
         self.name = "w_Roles"

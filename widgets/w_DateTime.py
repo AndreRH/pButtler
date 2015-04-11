@@ -9,10 +9,10 @@ class w_DateTime(widget):
     Display the date and the local time.
     """
 
-    def __init__(self, game):
+    def __init__(self, game, screen):
         """Initialize the widget.
         """
-        widget.__init__(self, game)
+        widget.__init__(self, game, screen)
 
         # Update needed properties
         self.name = "w_DateTime"
