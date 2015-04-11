@@ -33,16 +33,18 @@ surface.set_alpha(255)
 fadeDir = FADE_STOP
 fadeSpeed = 5
 
+# Init the screensaver properties
+saverTimer = 60000   # Time without activity to trigger the screensaver
+
 # Define custom events
 FADING = pygame.USEREVENT +1
 event_fadeIn = pygame.event.Event(FADING, dir = FADE_IN)
 event_fadeOut = pygame.event.Event(FADING, dir = FADE_OUT)
 event_fadeStop = pygame.event.Event(FADING, dir = FADE_STOP)
 
-# Init the screensaver properties
-F_saver = False     # Set to True when the screensaver is turned on
-saverTimer = 60000   # Time without activity to trigger the screensaver
-saverTime = 0       # Time of the last activity
+SAVER = pygame.USEREVENT +2
+event_saver = pygame.event.Event(SAVER)
+pygame.time.set_timer(SAVER, saverTimer)
 
 # Init widgets
 widgets = {
@@ -73,8 +75,7 @@ while not mustQuit:
 
         if event.type == pygame.KEYUP:
             # Update the screensaver activity tracker
-            saverTime = pygame.time.get_ticks()
-            F_saver = False
+            pygame.time.set_timer(SAVER, saverTimer)
 
             if event.key == pygame.K_ESCAPE:
                 mustQuit = True
@@ -87,22 +88,9 @@ while not mustQuit:
         if event.type == FADING:
             fadeDir = event.dir
 
-    # Screensaver
-    if not F_saver and t - saverTime > saverTimer:
-        F_saver = True
-        pygame.event.post(event_fadeOut)
-    if F_saver and surface.get_alpha() == 0:
-        os.system("xset dpms force off")
-
-    
-    # --- Drawing code
-    # Clear the screen to black
-    screen.fill(c_BLACK)
-    surface.fill(c_BLACK)
-
-    # Update widgets
-    for widget in widgets.values():
-        widget.update(surface)
+        # Solve saver events
+        if event.type == SAVER:
+            pygame.event.post(event_fadeOut)
 
     # Update the fading if necessary
     if fadeDir != FADE_STOP:
@@ -115,9 +103,22 @@ while not mustQuit:
             fadeDir = FADE_STOP
         surface.set_alpha(a)
 
-    # Update screen
-    screen.blit(surface, (0, 0))
-    pygame.display.flip()
+    # Screensaver
+    if surface.get_alpha() == 0:
+        os.system("xset dpms force off")
+    else:
+        # --- Drawing code
+        # Clear the screen to black
+        screen.fill(c_BLACK)
+        surface.fill(c_BLACK)
+
+        # Update widgets
+        for widget in widgets.values():
+            widget.update(surface)
+
+        # Update screen
+        screen.blit(surface, (0, 0))
+        pygame.display.flip()
 
 # Close the windows and quit
 pygame.quit()
