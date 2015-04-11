@@ -29,23 +29,15 @@ surface = pygame.Surface(screen.get_size())
 surface.set_alpha(255)
 
 # Init the fading properties
-F_fadeIn = False
-F_fadeOut = False
-fadeInc = 10
-fadeSpeed = 50
-fadeTime = 0
+(FADE_IN, FADE_OUT, FADE_STOP) = (1, -1, 0)
+fadeDir = FADE_STOP
+fadeSpeed = 5
 
-# Create the two fading functions
-def fadeOut():
-    global F_fadeIn, F_fadeOut, fadeTime
-    (F_fadeIn, F_fadeOut) = (False, True)
-    fadeTime = pygame.time.get_ticks()
-
-def fadeIn():
-    global F_fadeIn, F_fadeOut, fadeTime
-    (F_fadeIn, F_fadeOut) = (True, False)
-    fadeTime = pygame.time.get_ticks()
-
+# Define custom events
+FADING = pygame.USEREVENT +1
+event_fadeIn = pygame.event.Event(FADING, dir = FADE_IN)
+event_fadeOut = pygame.event.Event(FADING, dir = FADE_OUT)
+event_fadeStop = pygame.event.Event(FADING, dir = FADE_STOP)
 
 # Init the screensaver properties
 F_saver = False     # Set to True when the screensaver is turned on
@@ -71,7 +63,7 @@ saverTime = pygame.time.get_ticks()
 
 while not mustQuit:
     # Set the frame rate
-    clock.tick(60)
+    tt = clock.tick(60)
     t = pygame.time.get_ticks()
 
     # Solve events
@@ -87,14 +79,18 @@ while not mustQuit:
             if event.key == pygame.K_ESCAPE:
                 mustQuit = True
             if event.key == pygame.K_UP:
-                fadeIn()
+                pygame.event.post(event_fadeIn)
             if event.key == pygame.K_DOWN:
-                fadeOut()
+                pygame.event.post(event_fadeOut)
+
+        # Solve fading events
+        if event.type == FADING:
+            fadeDir = event.dir
 
     # Screensaver
     if not F_saver and t - saverTime > saverTimer:
         F_saver = True
-        fadeOut()
+        pygame.event.post(event_fadeOut)
     if F_saver and surface.get_alpha() == 0:
         os.system("xset dpms force off")
 
@@ -109,18 +105,15 @@ while not mustQuit:
         widget.update(surface)
 
     # Update the fading if necessary
-    if F_fadeIn and t - fadeTime > fadeSpeed:
-        a = surface.get_alpha() + fadeInc
-        if a > 255:
-            (a, F_fadeIn) = (255, False)
-        surface.set_alpha(a)
-        fadeTime = pygame.time.get_ticks()
-    elif F_fadeOut and t - fadeTime > fadeSpeed:
-        a = surface.get_alpha() - fadeInc
+    if fadeDir != FADE_STOP:
+        a = surface.get_alpha() + fadeDir*tt/fadeSpeed
         if a < 0:
-            (a, F_fadeOut) = (0, False)
+            a = 0
+            fadeDir = FADE_STOP
+        elif a > 255:
+            a = 255
+            fadeDir = FADE_STOP
         surface.set_alpha(a)
-        fadeTime = pygame.time.get_ticks()
 
     # Update screen
     screen.blit(surface, (0, 0))
