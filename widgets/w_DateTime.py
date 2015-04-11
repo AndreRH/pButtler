@@ -32,17 +32,17 @@ class w_DateTime(widget):
                 "mai", "juin", "juillet", "aout", "septembre",
                 "octobre", "novembre", "décembre"]
 
-    def update(self, screen):
-        t = time.localtime()
+    def update(self, screen, t):
+        lt = time.localtime()
         str_time = time.strftime("%H:%M:%S")
         str_date = "%s %d %s %d" % (
-                self.days_french[t.tm_wday],
-                t.tm_mday,
-                self.months_french[t.tm_mon],
-                t.tm_year)
+                self.days_french[lt.tm_wday],
+                lt.tm_mday,
+                self.months_french[lt.tm_mon],
+                lt.tm_year)
 
         txt_time = self.font_time.render(str_time, True, c_WHITE)
         txt_date = self.font_date.render(str_date, True, c_WHITE)
 
         screen.blit(txt_time, self.coo(0, 0))
-        screen.blit(txt_date, self.coo(50, 90))
+        screen.blit(txt_date, self.coo(30, 70))

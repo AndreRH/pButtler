@@ -21,7 +21,7 @@ class w_Roles(widget):
         self.font = self.game.font.SysFont(
                 'Helvetica', 18, bold=False, italic=False)
 
-    def update(self, screen):
+    def update(self, screen, t):
         txt_repas = self.font.render("Repas", True, c_GRAY)
         txt_MH = self.font.render("MH", True, c_GRAY)
         txt_MB = self.font.render("MB", True, c_GRAY)

@@ -114,7 +114,7 @@ while not mustQuit:
 
         # Update widgets
         for widget in widgets.values():
-            widget.update(surface)
+            widget.update(surface, t)
 
         # Update screen
         screen.blit(surface, (0, 0))

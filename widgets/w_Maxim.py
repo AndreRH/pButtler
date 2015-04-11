@@ -21,7 +21,7 @@ class w_Maxim(widget):
         self.font = self.game.font.SysFont(
                 'Helvetica', 25, bold=False, italic=False)
 
-    def update(self, screen):
+    def update(self, screen, t):
         str_maxim = u"La réponse est 42."
         str_maxim_size = self.font.size(str_maxim)
 
@@ -29,10 +29,10 @@ class w_Maxim(widget):
 
         line_x_s = screen.get_size()[0]*0.3
         line_x_e = screen.get_size()[0]*0.7
-        line_y = screen.get_size()[1]-120
+        line_y = screen.get_size()[1]-70
         self.game.draw.line(screen, c_WHITE,
                 [line_x_s, line_y], [line_x_e, line_y], 1)
 
         txt_x = screen.get_size()[0]/2 - self.font.size(str_maxim)[0]/2
-        txt_y = screen.get_size()[1] - 100
+        txt_y = screen.get_size()[1] - 50
         screen.blit(txt_maxim, self.coo(txt_x, txt_y))
