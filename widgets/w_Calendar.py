@@ -18,7 +18,7 @@ class w_Calendar(widget):
 
         # Update needed properties
         self.name = "w_Calendar"
-        self.x = self.coo_right(500)
+        self.x = self.coo_right(400)
         self.y = 180
 
         # Define custom properties
@@ -34,7 +34,7 @@ class w_Calendar(widget):
 
         # Calendar properties
         self.events = []
-        self.delta_days = 14
+        self.delta_days = 31
 
         # Define some local properties
         self.days_french = ["lundi", "mardi", "mercredi", "jeudi",
@@ -64,6 +64,8 @@ class w_Calendar(widget):
         for event in results:
             # Format the title of the event
             str_title = event.instance.vevent.summary.value
+            if len(str_title) > 20:
+                str_title = str_title[:17] + "..."
             # Format the date of the event
             vdate = event.instance.vevent.dtstart.value
             d = datetime.datetime.strptime(
@@ -98,7 +100,7 @@ class w_Calendar(widget):
             txt_date = self.font.render(date, True, c_date)
 
             screen.blit(txt_title, self.coo(0, y))
-            screen.blit(txt_date, self.coo(300, y))
+            screen.blit(txt_date, self.coo(250, y))
 
             # Update the y-index
             y += 25
