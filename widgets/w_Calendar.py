@@ -30,7 +30,7 @@ class w_Calendar(widget):
 
         # Timing properties
         self.lastUpdate = 0
-        self.updateRate = 10*1000
+        self.updateRate = 5*60*1000
 
         # Calendar properties
         self.events = []
@@ -47,35 +47,42 @@ class w_Calendar(widget):
         self.font = self.game.font.SysFont(
                 'Helvetica', 18, bold=False, italic=False)
 
+        # Update the event list
+        self.updateEvents()
+
+    def updateEvents(self):
+        """Update the event list.
+        """
+        # Update calendar data
+        d_start = datetime.datetime.today()
+        d_end = d_start + datetime.timedelta(self.delta_days)
+        results = self.cal_cal.date_search(d_start, d_end)
+
+        # Flush the events dict
+        self.events = []
+        # Add each events
+        for event in results:
+            # Format the title of the event
+            str_title = event.instance.vevent.summary.value
+            # Format the date of the event
+            vdate = event.instance.vevent.dtstart.value
+            d = datetime.datetime.strptime(
+                    vdate.strftime("%d %m %Y"), "%d %m %Y")
+            str_date = "%s %d %s" % (
+                self.days_french[d.weekday()],
+                d.day,
+                self.months_french[d.month -1])
+            # Format the date gap
+            gap = 1 + (d - d_start).days
+            # Save the event
+            self.events.append((str_title, str_date, gap))
+
     def update(self, screen, t):
         if t - self.lastUpdate > self.updateRate:
             # Update the lastUpdate timer
             self.lastUpdate = t
-
-            # Update calendar data
-            d_start = datetime.datetime.today()
-            d_end = d_start + datetime.timedelta(self.delta_days)
-            results = self.cal_cal.date_search(d_start, d_end)
-
-            # Flush the events dict
-            self.events = []
-            print "nb events ", len(results)
-            # Add each events
-            for event in results:
-                # Format the title of the event
-                str_title = event.instance.vevent.summary.value
-                # Format the date of the event
-                vdate = event.instance.vevent.dtstart.value
-                d = datetime.datetime.strptime(
-                        vdate.strftime("%d %m %Y"), "%d %m %Y")
-                str_date = "%s %d %s" % (
-                    self.days_french[d.weekday()],
-                    d.day,
-                    self.months_french[d.month -1])
-                # Format the date gap
-                gap = 1 + (d - d_start).days
-                # Save the event
-                self.events.append((str_title, str_date, gap))
+            # Update events
+            self.updateEvents()
 
         # Init the y-index
         y = 0
