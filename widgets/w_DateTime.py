@@ -31,14 +31,19 @@ class w_DateTime(widget):
         self.months_french = ["janvier", "février", "mars", "avril",
                 "mai", "juin", "juillet", "aout", "septembre",
                 "octobre", "novembre", "décembre"]
+        self.days_german = ["Montag", "Dienstag", "Mittwoch", "Donnerstag",
+                    "Freitag", "Samstag", "Sonntag"]
+        self.months_german = ["Januar", "Februar", "März", "April",
+                "Mai", "Juni", "Juli", "August", "September",
+                "Oktober", "November", "Dezember"]
 
     def update(self, screen, t):
         lt = time.localtime()
         str_time = time.strftime("%H:%M:%S")
         str_date = "%s %d %s %d" % (
-                self.days_french[lt.tm_wday],
+                self.days_german[lt.tm_wday],
                 lt.tm_mday,
-                self.months_french[lt.tm_mon],
+                self.months_german[lt.tm_mon],
                 lt.tm_year)
 
         txt_time = self.font_time.render(str_time, True, c_WHITE)
