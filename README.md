@@ -1,5 +1,5 @@
-# pButtler
-pButtler is a Pygame interface for a Magic Mirror.
+# pyMagicMirror
+pyMagicMirror is a Pygame interface for a Magic Mirror.
 
 ## Installalation
 + Clone the repository.

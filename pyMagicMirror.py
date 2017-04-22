@@ -2,8 +2,9 @@
 #-*- coding:utf-8 -*-
 
 """
------------- pButtler --
+------------ pyMagicMirror --
 -- by antoine@2ohm.fr --
+-- by nerv@dawncrow.de --
 ------------------------
 """
 
