@@ -23,6 +23,7 @@ pygame.init()
 
 # Set the screen to fullscreen
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+pygame.mouse.set_visible(False)
 
 # Init the main surface
 surface = pygame.Surface(screen.get_size())
