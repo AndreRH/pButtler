@@ -107,7 +107,7 @@ while not mustQuit:
         surface.set_alpha(a)
 
     # Screensaver
-    if surface.get_alpha() == 0:
+    if False and surface.get_alpha() == 0:
         os.system("xset dpms force off")
     else:
         # --- Drawing code
