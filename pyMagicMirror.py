@@ -14,7 +14,7 @@ import os
 
 # Import widgets
 from widgets.w_DateTime import *
-from widgets.w_Roles import *
+#from widgets.w_Roles import *
 from widgets.w_Maxim import *
 #from widgets.w_Calendar import *
 
@@ -51,7 +51,7 @@ pygame.time.set_timer(SAVER, saverTimer)
 # Init widgets
 widgets = {
     "w_DateTime": w_DateTime(pygame, screen),
-    "w_Roles": w_Roles(pygame, screen),
+    #"w_Roles": w_Roles(pygame, screen),
     "w_Maxim": w_Maxim(pygame, screen),
     #"w_Calendar": w_Calendar(pygame, screen)
     }
