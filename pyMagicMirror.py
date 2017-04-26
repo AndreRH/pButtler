@@ -59,6 +59,8 @@ while not mustQuit:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_ESCAPE:
                 mustQuit = True
+            if event.key == pygame.K_q:
+                mustQuit = True
 
     # Clear the screen to black
     screen.fill(c_BLACK)
