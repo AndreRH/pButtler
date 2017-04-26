@@ -22,7 +22,7 @@ class w_Maxim(widget):
                 'Helvetica', 25, bold=False, italic=False)
 
     def update(self, screen, t):
-        str_maxim = u"La réponse est 42."
+        str_maxim = u"Guat schaust aus!"
         str_maxim_size = self.font.size(str_maxim)
 
         txt_maxim = self.font.render(str_maxim, True, c_WHITE)
