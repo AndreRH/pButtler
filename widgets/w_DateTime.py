@@ -35,7 +35,8 @@ class w_DateTime(widget):
                 "octobre", "novembre", "décembre"]
         self.days_german = ["Montag", "Dienstag", "Mittwoch", "Donnerstag",
                     "Freitag", "Samstag", "Sonntag"]
-        self.months_german = ["Januar", "Februar", "März", "April",
+        self.days_german_short = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
+        self.months_german = ["nuhl", "Januar", "Februar", "März", "April",
                 "Mai", "Juni", "Juli", "August", "September",
                 "Oktober", "November", "Dezember"]
 
@@ -43,8 +44,8 @@ class w_DateTime(widget):
         lt = time.localtime()
         str_hour = time.strftime("%H")
         str_minute = time.strftime("%M")
-        str_date = "%s %d %s %d" % (
-                self.days_german[lt.tm_wday],
+        str_date = "%s. %d. %s %d" % (
+                self.days_german_short[lt.tm_wday],
                 lt.tm_mday,
                 self.months_german[lt.tm_mon],
                 lt.tm_year)
