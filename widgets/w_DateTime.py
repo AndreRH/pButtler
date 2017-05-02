@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-import time
+import os, time
 
 from widgets.widget import *
 
@@ -39,6 +39,9 @@ class w_DateTime(widget):
         self.months_german = ["nuhl", "Januar", "Februar", "März", "April",
                 "Mai", "Juni", "Juli", "August", "September",
                 "Oktober", "November", "Dezember"]
+
+        os.environ['TZ'] = 'Europe/Berlin'
+        time.tzset()
 
     def update(self, screen, t):
         lt = time.localtime()
