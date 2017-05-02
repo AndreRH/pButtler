@@ -20,7 +20,9 @@ class w_DateTime(widget):
         self.y = 50
 
         # Define some font
-        self.font_time = self.game.font.SysFont(
+        self.font_hour = self.game.font.SysFont(
+                'Helvetica', 75, bold=True, italic=False)
+        self.font_minute = self.game.font.SysFont(
                 'Helvetica', 75, bold=False, italic=False)
         self.font_date = self.game.font.SysFont(
                 'Helvetica', 20, bold=False, italic=False)
@@ -39,15 +41,18 @@ class w_DateTime(widget):
 
     def update(self, screen, t):
         lt = time.localtime()
-        str_time = time.strftime("%H:%M:%S")
+        str_hour = time.strftime("%H")
+        str_minute = time.strftime("%M")
         str_date = "%s %d %s %d" % (
                 self.days_german[lt.tm_wday],
                 lt.tm_mday,
                 self.months_german[lt.tm_mon],
                 lt.tm_year)
 
-        txt_time = self.font_time.render(str_time, True, c_WHITE)
+        txt_hour = self.font_hour.render(str_hour, True, c_WHITE)
+        txt_minute = self.font_minute.render(str_minute, True, c_WHITE)
         txt_date = self.font_date.render(str_date, True, c_WHITE)
 
-        screen.blit(txt_time, self.coo(0, 0))
-        screen.blit(txt_date, self.coo(30, 70))
+        screen.blit(txt_hour, self.coo(0, 0))
+        screen.blit(txt_minute, self.coo(0, txt_hour.get_height() - 15))
+        screen.blit(txt_date, self.coo(0, txt_hour.get_height() + txt_minute.get_height() - 20))
