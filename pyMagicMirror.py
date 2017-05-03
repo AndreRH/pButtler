@@ -48,7 +48,7 @@ saverTime = pygame.time.get_ticks()
 
 while not mustQuit:
     # Set the frame rate
-    tt = clock.tick(60)
+    tt = clock.tick(2)
     t = pygame.time.get_ticks()
 
     # Solve events
